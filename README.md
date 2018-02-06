@@ -1,7 +1,5 @@
 # Amazon Cognito Identity SDK for JavaScript
 
-**NOTE: If you are receiving a "_global.util.crypto.lib.randomBytes is not a function" error, it is an issue we are actively working on. For a workaround have a look at the issue: https://github.com/aws/amazon-cognito-identity-js/issues/646**
-
 You can now use Amazon Cognito to easily add user sign-up and sign-in to your mobile and web apps. Your User Pool in Amazon Cognito is a fully managed user directory that can scale to hundreds of millions of users, so you don't have to worry about building, securing, and scaling a solution to handle user management and authentication.
 
 We welcome developer feedback on this project. You can reach us by creating an issue on the
@@ -22,41 +20,27 @@ Your users will benefit from a number of security features including SMS-based M
 Setup
 =====
 
-The Amazon Cognito Identity SDK for JavaScript depends on:
-
-1. The `CognitoIdentityServiceProvider` service from the [AWS SDK for JavaScript](https://github.com/aws/aws-sdk-js)
-
 There are two ways to install the Amazon Cognito Identity SDK for JavaScript and its dependencies,
 depending on your project setup and experience with modern JavaScript build tools:
 
-* Download each JavaScript library and include them in your HTML, or
+* Download the JavaScript library and include it in your HTML, or
 
 * Install the dependencies with npm and use a bundler like webpack.
 
-## Install using separate JavaScript files
+**Note:** This library uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API). For [older browsers](https://caniuse.com/#feat=fetch) or in Node.js, you may need to include a polyfill.
+
+## Install using separate JavaScript file
 
 This method is simpler and does not require additional tools, but may have worse performance due to
 the browser having to download multiple files.
 
-Download each of the following JavaScript files for the required libraries and place them in your
-project:
-
-1. The Amazon Cognito AWS SDK for JavaScript, from
-   [/dist/aws-cognito-sdk.min.js](https://raw.githubusercontent.com/aws/amazon-cognito-identity-js/master/dist/aws-cognito-sdk.min.js)
-
-   Note that the Amazon Cognito AWS SDK for JavaScript is just a slimmed down version of the AWS
-   Javascript SDK namespaced as `AWSCognito` instead of `AWS`. It references only the Amazon
-   Cognito Identity service.
-
-3. The Amazon Cognito Identity SDK for JavaScript, from
-   [/dist/amazon-cognito-identity.min.js](https://raw.githubusercontent.com/aws/amazon-cognito-identity-js/master/dist/amazon-cognito-identity.min.js)
+Download the JavaScript [library file](https://raw.githubusercontent.com/aws/amazon-cognito-identity-js/master/dist/amazon-cognito-identity.min.js) and place it in your project.
 
 Optionally, to use other AWS services, include a build of the [AWS SDK for JavaScript](http://aws.amazon.com/sdk-for-browser/).
 
 Include all of the files in your HTML page before calling any Amazon Cognito Identity SDK APIs:
 
 ```html
-    <script src="/path/to/aws-cognito-sdk.min.js"></script>
     <script src="/path/to/cognitauth.min.js"></script>
     <!-- optional: only if you use other AWS services -->
     <script src="/path/to/aws-sdk-2.6.10.js"></script>
@@ -195,9 +179,6 @@ The usage examples below use the unqualified names for types in the Amazon Cogni
     // When using loose Javascript files:
     var CognitoUserPool = Cognitauth.CognitoUserPool;
 
-    // Under the original name:
-    var CognitoUserPool = AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool;
-
     // Modules, e.g. Webpack:
     var Cognitauth = require('cognitauth');
     var CognitoUserPool = Cognitauth.CognitoUserPool;
@@ -214,7 +195,7 @@ The usage examples below use the unqualified names for types in the Amazon Cogni
         UserPoolId : '...', // Your user pool id here
         ClientId : '...' // Your client id here
     };
-    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+    var userPool = new Cognitauth.CognitoUserPool(poolData);
 
     var attributeList = [];
 
@@ -227,8 +208,8 @@ The usage examples below use the unqualified names for types in the Amazon Cogni
         Name : 'phone_number',
         Value : '+15555555555'
     };
-    var attributeEmail = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
-    var attributePhoneNumber = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataPhoneNumber);
+    var attributeEmail = new Cognitauth.CognitoUserAttribute(dataEmail);
+    var attributePhoneNumber = new Cognitauth.CognitoUserAttribute(dataPhoneNumber);
 
     attributeList.push(attributeEmail);
     attributeList.push(attributePhoneNumber);
@@ -251,13 +232,13 @@ The usage examples below use the unqualified names for types in the Amazon Cogni
         ClientId : '...' // Your client id here
     };
 
-    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+    var userPool = new Cognitauth.CognitoUserPool(poolData);
     var userData = {
         Username : 'username',
         Pool : userPool
     };
 
-    var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+    var cognitoUser = new Cognitauth.CognitoUser(userData);
     cognitoUser.confirmRegistration('123456', true, function(err, result) {
         if (err) {
             alert(err);
@@ -287,17 +268,17 @@ The usage examples below use the unqualified names for types in the Amazon Cogni
         Username : 'username',
         Password : 'password',
     };
-    var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+    var authenticationDetails = new Cognitauth.AuthenticationDetails(authenticationData);
     var poolData = {
         UserPoolId : '...', // Your user pool id here
         ClientId : '...' // Your client id here
     };
-    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+    var userPool = new Cognitauth.CognitoUserPool(poolData);
     var userData = {
         Username : 'username',
         Pool : userPool
     };
-    var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+    var cognitoUser = new Cognitauth.CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
             console.log('access token + ' + result.getAccessToken().getJwtToken());
@@ -392,7 +373,7 @@ Note that the inputVerificationCode method needs to be defined but does not need
         Name : 'nickname',
         Value : 'joe'
     };
-    var attribute = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(attribute);
+    var attribute = new Cognitauth.CognitoUserAttribute(attribute);
     attributeList.push(attribute);
 
     cognitoUser.updateAttributes(attributeList, function(err, result) {
@@ -503,7 +484,7 @@ In React Native, loading the persisted current user information requires an extr
       UserPoolId : '...', // Your user pool id here
       ClientId : '...' // Your client id here
     };
-    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+    var userPool = new Cognitauth.CognitoUserPool(poolData);
 
     userPool.storage.sync(function(err, result) {
       if (err) { }
@@ -521,7 +502,7 @@ In React Native, loading the persisted current user information requires an extr
         UserPoolId : '...', // Your user pool id here
         ClientId : '...' // Your client id here
     };
-    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+    var userPool = new Cognitauth.CognitoUserPool(poolData);
     var cognitoUser = userPool.getCurrentUser();
 
     if (cognitoUser != null) {
@@ -735,15 +716,15 @@ To use the CookieStorage you have to pass it in the constructor map of CognitoUs
   var poolData = {
       UserPoolId : '...', // Your user pool id here
       ClientId : '...' // Your client id here
-      Storage: new AWSCognito.CognitoIdentityServiceProvider.CookieStorage({domain: ".yourdomain.com"})
+      Storage: new Cognitauth.CookieStorage({domain: ".yourdomain.com"})
   };
 
-  var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+  var userPool = new Cognitauth.CognitoUserPool(poolData);
 
   var userData = {
       Username: 'username',
       Pool: userPool,
-      Storage: new AWSCognito.CognitoIdentityServiceProvider.CookieStorage({domain: ".yourdomain.com"})
+      Storage: new Cognitauth.CookieStorage({domain: ".yourdomain.com"})
   };
   ```
 The CookieStorage object receives a map (data) in its constructor that may have these values:
@@ -759,17 +740,17 @@ The CookieStorage object receives a map (data) in its constructor that may have 
             Username : 'username',
             Password : 'password',
         };
-        var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+        var authenticationDetails = new Cognitauth.AuthenticationDetails(authenticationData);
         var poolData = {
             UserPoolId : '...', // Your user pool id here
             ClientId : '...' // Your client id here
         };
-        var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+        var userPool = new Cognitauth.CognitoUserPool(poolData);
         var userData = {
             Username : 'username',
             Pool : userPool
         };
-        var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+        var cognitoUser = new Cognitauth.CognitoUser(userData);
 
         cognitoUser.authenticateUser(authenticationDetails, {
             onSuccess: function (result) {
@@ -845,17 +826,9 @@ For most frameworks you can whitelist the domain by whitelisting all AWS endpoin
 
 ## Random numbers
 
-In order to authenticate with the Amazon Cognito Identity Service, the client needs to generate a random number as part of the SRP protocol. The AWS SDK is only compatible with modern browsers, and these include support for cryptographically strong random values. If you do need to support older browsers then you should be aware that this is less secure, and if possible include a strong polyfill for `window.crypto.getRandomValues()` before including this library.
+In order to authenticate with the Amazon Cognito Identity Service, the client needs to generate a random number as part of the SRP protocol. The AWS SDK is only compatible with modern browsers, and these include [support for cryptographically strong random values](https://caniuse.com/#feat=cryptography). If you do need to support older browsers then you should include a strong polyfill for `window.crypto.getRandomValues()` before including this library.
 
 ## Change Log
-
-**v1.31.0:**
-* What has changed
-  * Added lib folder.
-
-**v1.30.0:**
-* What has changed
-  * Temporary fix to lock down the AWS SDK version to a compatible one.
 
 **v1.29.0:**
 * What has changed
