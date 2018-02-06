@@ -1,3 +1,9 @@
+# Cognitauth
+
+This is a fork of [aws/amazon-cognito-identity-js](https://github.com/aws/amazon-cognito-identity-js) with the [`aws-sdk`](https://github.com/aws/aws-sdk-js/) dependency removed. It is replaced with a fetch client.
+
+The README below is taken from [aws/amazon-cognito-identity-js](https://github.com/aws/amazon-cognito-identity-js) with minor modifications to reflect the changes here.
+
 # Amazon Cognito Identity SDK for JavaScript
 
 You can now use Amazon Cognito to easily add user sign-up and sign-in to your mobile and web apps. Your User Pool in Amazon Cognito is a fully managed user directory that can scale to hundreds of millions of users, so you don't have to worry about building, securing, and scaling a solution to handle user management and authentication.
@@ -34,7 +40,7 @@ depending on your project setup and experience with modern JavaScript build tool
 This method is simpler and does not require additional tools, but may have worse performance due to
 the browser having to download multiple files.
 
-Download the JavaScript [library file](https://raw.githubusercontent.com/aws/amazon-cognito-identity-js/master/dist/amazon-cognito-identity.min.js) and place it in your project.
+Download the JavaScript [library file](https://raw.githubusercontent.com/goldwasserexchange/cognitauth/master/dist/cognitauth.min.js) and place it in your project.
 
 Optionally, to use other AWS services, include a build of the [AWS SDK for JavaScript](http://aws.amazon.com/sdk-for-browser/).
 
