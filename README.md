@@ -57,7 +57,7 @@ Include all of the files in your HTML page before calling any Amazon Cognito Ide
 
 ```html
     <script src="/path/to/aws-cognito-sdk.min.js"></script>
-    <script src="/path/to/amazon-cognito-identity.min.js"></script>
+    <script src="/path/to/cognitauth.min.js"></script>
     <!-- optional: only if you use other AWS services -->
     <script src="/path/to/aws-sdk-2.6.10.js"></script>
 ```
@@ -92,7 +92,7 @@ migration.
 
   ```
   > npm install --save-dev webpack json-loader
-  > npm install --save amazon-cognito-identity-js
+  > npm install --save cognitauth
   ```
 
   These will add a `node_modules` directory containing these tools and dependencies into your
@@ -143,7 +143,7 @@ See [Using NPM and Webpack](https://github.com/aws/amazon-cognito-identity-js#us
 * Install and add to your dependencies the Amazon Cognito Identity SDK for JavaScript:
 
 ```
-npm install --save amazon-cognito-identity-js
+npm install --save cognitauth
 ```
 
 * Install react-native-cli if you have not already:
@@ -155,7 +155,7 @@ npm install -g react-native-cli
 * Link the native modules to your project:
 
 ```
-react-native link amazon-cognito-identity-js
+react-native link cognitauth
 ```
 
 ## Configuration
@@ -193,17 +193,17 @@ The usage examples below use the unqualified names for types in the Amazon Cogni
 
 ```javascript
     // When using loose Javascript files:
-    var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
+    var CognitoUserPool = Cognitauth.CognitoUserPool;
 
     // Under the original name:
     var CognitoUserPool = AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool;
 
     // Modules, e.g. Webpack:
-    var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-    var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
+    var Cognitauth = require('cognitauth');
+    var CognitoUserPool = Cognitauth.CognitoUserPool;
 
     // ES Modules, e.g. transpiling with Babel
-    import { CognitoUserPool, CognitoUserAttribute, CognitoUser } from 'amazon-cognito-identity-js';
+    import { CognitoUserPool, CognitoUserAttribute, CognitoUser } from 'cognitauth';
 ```
 
 **Use case 1.** Registering a user with the application. One needs to create a CognitoUserPool object by providing a UserPoolId and a ClientId and signing up by using a username, password, attribute list, and validation data.
@@ -312,7 +312,7 @@ The usage examples below use the unqualified names for types in the Amazon Cogni
                     'cognito-idp.<region>.amazonaws.com/<YOUR_USER_POOL_ID>' : result.getIdToken().getJwtToken()
                 }
             });
-            
+
             //refreshes credentials using AWS.CognitoIdentity.getCredentialsForIdentity()
             AWS.config.credentials.refresh((error) => {
                 if (error) {
@@ -504,7 +504,7 @@ In React Native, loading the persisted current user information requires an extr
       ClientId : '...' // Your client id here
     };
     var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
-    
+
     userPool.storage.sync(function(err, result) {
       if (err) { }
       else if (result === 'SUCCESS') {
@@ -775,7 +775,7 @@ The CookieStorage object receives a map (data) in its constructor that may have 
             onSuccess: function (result) {
                 console.log('access token + ' + result.getAccessToken().getJwtToken());
             },
-      
+
             onFailure: function(err) {
                 alert(err);
             },
@@ -957,7 +957,7 @@ In order to authenticate with the Amazon Cognito Identity Service, the client ne
    * Webpack support.
    * Support for Custom authentication flows. Developers can implement custom authentication flows around Cognito Your User Pools. See developer documentation for details.
    * Devices support in User Pools. Users can remember devices and skip MFA verification for remembered devices.
-   * Scopes to control permissions for attributes in a User Pool.  
+   * Scopes to control permissions for attributes in a User Pool.
    * Configurable expiration time for refresh tokens.
    * Set custom FROM and REPLY-TO for email verification messages.
    * Search users in your pool using user attributes.

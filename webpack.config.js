@@ -22,7 +22,7 @@ var config = {
   entry: './enhance',
   output: {
     libraryTarget: 'umd',
-    library: 'AmazonCognitoIdentity'
+    library: 'Cognitauth'
   },
   externals: {
     // This umd context config isn't in configuration documentation, but see example:

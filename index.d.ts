@@ -1,4 +1,4 @@
-declare module "amazon-cognito-identity-js" {
+declare module "cognitauth" {
 
     import * as AWS from "aws-sdk";
 
